@@ -29,6 +29,10 @@ class NNetwork():
             a = sigmoid_vec(np.dot(w, a) + b);
         return a;
     
+    def SGD(self, training_data, epochs, 
+            mini_batch_size, eta, test_data):
+        
+    
         
 def sigmoid(z):
     """The sigmoid function."""
