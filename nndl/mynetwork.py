@@ -14,6 +14,9 @@ import random
 # Third-party libraries
 import numpy as np
 
+# mnist_loader
+import mnist_loader
+
 
 class NNetwork():
     
