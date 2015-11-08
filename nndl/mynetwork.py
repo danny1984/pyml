@@ -41,14 +41,14 @@ class NNetwork():
             random.shuffle(training_data)
             mini_batches = [training_data[k:k+mini_batch_size] for k in xrange(0, n, mini_batch_size) ] 
             
-        for mini_batch in mini_batches:
-            self.update_mini_batch(mini_batch, eta);
+            for mini_batch in mini_batches:
+                self.update_mini_batch(mini_batch, eta)
 
-        # validate_data
-        if test_data:
-            print "Epoch{0}:{1}/{2}".format(j, self.evaluate(test_data), n_test)
-        else:
-            print "Epoch {0} complete".format(j)
+            # validate_data
+            if test_data:
+                print "Epoch{0}:{1}/{2}".format(j, self.evaluate(test_data), n_test)
+            else:
+                print "Epoch {0} complete".format(j)
     
     def update_mini_batch(self, mini_batch, eta):
         nabla_b = [ np.zeros(b.shape) for b in self.biases ]
@@ -77,22 +77,22 @@ class NNetwork():
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation) + b
             zs.append(z)
-            activation = sigmod(z)
-            activations = append(activation)
+            activation = sigmoid(z)
+            activations.append(activation)
             
         #backward pass
         delta = self.cost_derivative(activations[-1],y) * \
-            sigmod_prime(zs[-1])
+            sigmoid_prime(zs[-1])
         
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose() )
         
         for l in xrange(2, self.num_layers):
-            z = zs[-1]
-            sp = sigmod_prime(z)
-            delta = np.dot(self.weights[-l + 1].transpose(), delta) * sp
-            nabla_b[-1] = delta
-            nabla_w[-1] = np.dot(delta, activations[-l - 1].transpose() )
+            z = zs[-l]
+            spv = sigmoid_prime(z)
+            delta = np.dot(self.weights[-l + 1].transpose(), delta) * spv
+            nabla_b[-l] = delta
+            nabla_w[-l] = np.dot(delta, activations[-l - 1].transpose() )
             
         return (nabla_b, nabla_w)
     
