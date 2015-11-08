@@ -37,12 +37,10 @@ class NNetwork():
         if test_data: n_test = len(test_data)
         n = len(training_data)
 
-        # 拆分 training_data, 变成一份一份的training_data
         for j in xrange(epochs):
             random.shuffle(training_data)
             mini_batches = [training_data[k:k+mini_batch_size] for k in xrange(0, n, mini_batch_size) ] 
             
-        #  对于每一份training_data
         for mini_batch in mini_batches:
             self.update_mini_batch(mini_batch, eta);
 
@@ -68,7 +66,7 @@ class NNetwork():
         
     def backprop(self, x, y):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
-        nabla_w = [np.zeros(w.shape) fro w in self.weights]
+        nabla_w = [np.zeros(w.shape) for w in self.weights]
         
         #feedforward
         activation = x
