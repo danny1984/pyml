@@ -61,8 +61,8 @@ class NNetwork():
             
         self.weights = [w - (eta/len(mini_batch)) * nw
                         for w, nw in zip(self.weights, nabla_w)]
-        self.biases = [b-(eta/len(mini_batch)) * nb
-                       for b, nb in zip(self.biases, nabla_b)]
+        self.biases  = [b - (eta/len(mini_batch)) * nb
+                        for b, nb in zip(self.biases, nabla_b)]
         
     def backprop(self, x, y):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
