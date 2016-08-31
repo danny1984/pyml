@@ -18,11 +18,14 @@ If you have any suggestions, pls feel free to connect me.
 # Acknowledgement
 
 My first thank should go to my wife, Junhua Shi. 
-This work takes me lot of spare time. And she provides her great support to this project.
+This work takes me much spare time. And she provides her comprehension and concern to me.
+She contributes much to my precious life.
 
-The main materials and projects are listed below. 
+Meanwhile, I refer lots of materials and codes to complete this project.
+The main materials and projects will be listed below.
 
 1. Neuron Network and Deep learning
+
 2. Caffe
 
 Danny - Hangzhou
