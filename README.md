@@ -1,8 +1,6 @@
-# 
-# pyml
-#    machine learning with python
-# gaodehong_polyu@163.com
-# hangzhou
+# sgml
+    machine learning with python
+  gaodehong_polyu@163.com
 #
 python for machine learning
 
@@ -20,8 +18,11 @@ If you have any suggestions, pls feel free to connect me.
 
 # Acknowledgement
 
+My first thank should go to my wife, Junhua Shi. 
+This work takes me lot of spare time. And she always provide her great support.
+
 1. Neuron Network and Deep learning
 2. Caffe
 
-Danny
+Danny - Hangzhou
 
