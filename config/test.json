@@ -1,0 +1,36 @@
+{
+  "nn_name":"sgmlTest",
+  "decription":"gml test program",
+  "data":{
+    "path": "../../data/mnist.pkl.gz",
+    "type": "mnist_loader"
+  },
+  "parameters":{
+    "solver":"SGD",
+    "min_batch_size": 100,
+    "eta": 3,
+    "epochs": 3
+  },
+  "layers":[
+    {
+      "layer_name":"input",
+      "type":"InputLayer",
+      "top":"hidden"
+    },
+    {
+      "layer_name":"hidden",
+      "type":"FCLayer",
+      "bottom":"input",
+      "top":"output",
+      "num_output":30
+    },
+    {
+      "layer_name":"output",
+      "type":"OutputLayer",
+      "bottom":"hidden",
+      "num_output":10,
+      "top":""
+    }
+  ]
+
+}
