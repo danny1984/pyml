@@ -1,8 +1,6 @@
-# sgml
-    machine learning with python
+# sgml - machine learning with python
+  
   gaodehong_polyu@163.com
-#
-python for machine learning
 
 # Preface
 
