@@ -7,10 +7,16 @@
   },
   "parameters":{
     "solver":"SGD",
-    "min_batch_size": 100,
+    "mini_batch_size": 100,
     "eta": 3,
-    "epochs": 3,
+    "epochs": 10,
     "costType" : "CrossEntropy"
+  },
+  "trace":{
+    "trace_training_cost": 1,
+    "trace_test_cost": 1,
+    "trace_training_accuracy": 1,
+    "trace_test_accuracy": 1
   },
   "layers":[
     {
@@ -19,11 +25,18 @@
       "top":"hidden"
     },
     {
-      "layer_name":"hidden",
+      "layer_name":"hidden1",
       "type":"FCLayer",
       "bottom":"input",
       "top":"output",
       "num_output":30
+    },
+    {
+      "layer_name":"hidden2",
+      "type":"FCLayer",
+      "bottom":"input",
+      "top":"output",
+      "num_output":15
     },
     {
       "layer_name":"output",

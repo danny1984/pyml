@@ -16,6 +16,8 @@ class SGMLNN(object):
         logger.debug("Initializing data ....")
         self.dataConfig = self.globalConfig["data"]
         self.trainData, self.validationData, self.testData = load_data_wrapper(self.dataConfig["path"])
+        #self.trainData = self.trainData[:1000]
+        #self.testData  = self.testData[:1000]
         self.data = [self.trainData, self.validationData, self.testData]
         logger.debug("training sample size: " + str(len(self.trainData[0])))
         logger.debug("validation sample size: " + str(len(self.validationData[0])))
@@ -24,11 +26,12 @@ class SGMLNN(object):
 
         # 参数初始化
         self.parameterConfig = self.globalConfig["parameters"]
-        self.min_batch_size  = self.parameterConfig["min_batch_size"]
+        self.mini_batch_size  = self.parameterConfig["mini_batch_size"]
         self.solverName      = self.parameterConfig["solver"]
         self.eta             = self.parameterConfig["eta"]
         self.epochs          = self.parameterConfig["epochs"]
-        self.parameter = [self.min_batch_size, self.solverName, self.eta, self.epochs]
+        #self.costFunc        = globals()[self.globalConfig["parameters"]["costType"]]()
+        self.parameter = [self.mini_batch_size, self.solverName, self.eta, self.epochs]
         logger.debug("Parameters: " + ",".join([str(x) for x in self.parameter]))
 
         # 初始化网络基本参数
@@ -46,6 +49,12 @@ class SGMLNN(object):
                 self.layers[ind].setup(self.data, self.layers[ind])
             else:
                 self.layers[ind].setup(self.layers[ind-1], self.layers[ind])
+
+        # 其他
+        self.traceTrainingCost = self.globalConfig["trace"]["trace_training_cost"]
+        self.traceTestCost     = self.globalConfig["trace"]["trace_test_cost"]
+        self.traceTrainingAccuracy = self.globalConfig["trace"]["trace_training_accuracy"]
+        self.traceTestAccuracy     = self.globalConfig["trace"]["trace_test_accuracy"]
 
         # 优化
         logger.debug("initialize solver [" + self.solverName + "]")

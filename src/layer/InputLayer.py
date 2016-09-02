@@ -29,3 +29,5 @@ class InputLayer(LayerBase):
         super(InputLayer, self).backward()
         logger.debug(self.getLayerName() + " backwarding now")
 
+    def batchUpdate(self, batch_size, eta):
+        logger.debug(self.getLayerName() + " batch update")

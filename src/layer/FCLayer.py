@@ -58,6 +58,11 @@ class FCLayer(LayerBase):
         self._B = np.random.randn(width, 1)
         self._W = np.random.randn(width, length)/np.sqrt(width)
 
+    def batchUpdate(self, batch_size, eta):
+        logger.debug(self.getLayerName() + " batch update")
+        self._W = self._W - (float(eta)/batch_size) * self.delta_W
+        self._B = self._B - (float(eta)/batch_size) * self.delta_B
+
     def miniBatchPrepare(self):
         self.delta_B = np.zeros(self._B.shape)
         self.delta_W = np.zeros(self._W.shape)

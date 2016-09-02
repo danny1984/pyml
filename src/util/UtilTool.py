@@ -10,7 +10,7 @@ fh = logging.FileHandler('sgml.log')
 fh.setLevel(logging.INFO)
 # 写入到控制台
 ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+ch.setLevel(logging.INFO)
 
 #formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 formatter = logging.Formatter('%(asctime)s-%(filename)s-%(lineno)d:    %(message)s')
