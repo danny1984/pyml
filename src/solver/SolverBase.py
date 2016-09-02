@@ -5,7 +5,7 @@ from src.util.UtilTool import *
 class SolverBase(object):
 
     def __init__(self):
-        logger.info("SolverBase initializes")
+        logger.debug("SolverBase initializes")
 
     def optimize(self):
-        logger.info("SolverBase initializes")
+        logger.debug("SolverBase initializes")

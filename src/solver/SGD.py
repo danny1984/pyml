@@ -8,16 +8,16 @@ from src.solver.SolverBase import *
 class SGD(SolverBase):
 
     def __init__(self, nn):
-        logger.info("initialize SGD instance")
+        logger.debug("initialize SGD instance")
         self.neuronNetwork = nn
-        logger.info("initialize neuronNetwork[" + nn.neuronNetworkName + "] in SGD")
+        logger.debug("initialize neuronNetwork[" + nn.neuronNetworkName + "] in SGD")
 
     def doOptimize(self):
-        logger.info("===== SGD begin, to optimal network[" + self.neuronNetwork.neuronNetworkName + "] ======")
+        logger.debug("===== SGD begin, to optimal network[" + self.neuronNetwork.neuronNetworkName + "] ======")
         n_train_size = len(self.neuronNetwork.trainData)
 
         for epoch in xrange( self.neuronNetwork.epochs ):
-            logger.info("==== epoch " + str(epoch) + " =====")
+            logger.debug("==== epoch " + str(epoch) + " =====")
             random.shuffle(self.neuronNetwork.trainData)
 
             mini_batches = [ self.neuronNetwork.trainData[k:k+self.neuronNetwork.min_batch_size]
@@ -31,17 +31,26 @@ class SGD(SolverBase):
 
         self.miniBatchPrepare()
         for x, y in mini_batch:
-            logger.info("Training one sample in mini_batch_update")
+            logger.debug("Training one sample in mini_batch_update")
             self.doForward(x)
+            self.doBackward(y)
 
     def doForward(self, x):
-        logger.info("mini_batch do forwarding: ")
+        logger.debug("mini_batch do forwarding: ")
         for ind in xrange(len(self.neuronNetwork.layers)):
             if ind == 0:
                 self.neuronNetwork.layers[ind].forward(x)
             else:
                 self.neuronNetwork.layers[ind].forward(self.neuronNetwork.layers[ind - 1])
 
+    def doBackward(self, y):
+        logger.debug("mini_batch do backforwarding: ")
+        for ind in xrange(1, len(self.neuronNetwork.layers) ):
+            if ind == 1:
+                self.neuronNetwork.layers[-ind].backward(self.neuronNetwork.layers[- ind - 1], y)
+            else:
+                self.neuronNetwork.layers[-ind].backward(self.neuronNetwork.layers[- ind - 1],
+                                                         self.neuronNetwork.layers[- ind + 1])
 
     def miniBatchPrepare(self):
         for layer in self.neuronNetwork.layers:

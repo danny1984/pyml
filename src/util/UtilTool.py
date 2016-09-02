@@ -7,7 +7,7 @@ logger.setLevel(logging.DEBUG)
 
 # 写入日志文件
 fh = logging.FileHandler('sgml.log')
-fh.setLevel(logging.DEBUG)
+fh.setLevel(logging.INFO)
 # 写入到控制台
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)

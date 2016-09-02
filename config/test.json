@@ -9,7 +9,8 @@
     "solver":"SGD",
     "min_batch_size": 100,
     "eta": 3,
-    "epochs": 3
+    "epochs": 3,
+    "costType" : "CrossEntropy"
   },
   "layers":[
     {
@@ -32,5 +33,4 @@
       "top":""
     }
   ]
-
 }

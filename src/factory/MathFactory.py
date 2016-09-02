@@ -2,3 +2,5 @@
 
 import numpy as np
 from src.math.sigmod import *
+from src.math.CrossEntropy import *
+from src.math.Quadratic import *

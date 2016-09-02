@@ -24,7 +24,8 @@ She contributes much to my precious life.
 Meanwhile, I refer lots of materials and codes to complete this project.
 The main materials and projects will be listed below.
 
-1. Neuron Network and Deep learning
+1. Neuron Network and Deep learning - Michael Neilsen
+http://neuralnetworksanddeeplearning.com/
 
 2. Caffe
 
