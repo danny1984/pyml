@@ -1,0 +1,89 @@
+{
+  "nn_name":"sgmlTest",
+  "decription":"gml test program",
+  "data":{
+    "path": "../../data/mnist.pkl.gz",
+    "type": "mnist_loader"
+  },
+  "parameters":{
+    "solver":"SGD",
+    "mini_batch_size": 100,
+    "eta": 3,
+    "epochs": 10,
+    "costType" : "CrossEntropy"
+  },
+  "trace":{
+    "trace_training_cost": 1,
+    "trace_test_cost": 1,
+    "trace_training_accuracy": 1,
+    "trace_test_accuracy": 1
+  },
+  "layers":[
+    {
+      "layer_name":"input",
+      "type":"InputLayer",
+      "top":"hidden",
+      "reshape":{
+        "flag" : 1,
+        "height": 28,
+        "width": 28
+      }
+    },
+    {
+      "layer_name": "cov1",
+      "type": "ConvolutionLayer",
+      "bottom": "input",
+      "top": "pooling1",
+      "conv_parameters": {
+        "kernel_size": 5,
+        "kernel_cnt": 20,
+        "stride" : 1
+      }
+    },
+    {
+      "layer_name":"pooling1",
+      "type":"MaxPooling",
+      "bottom":"conv1",
+      "top":"conv2",
+      "pooling_parameters":{
+        "kernel_size":2,
+        "stride":2
+      }
+    },
+    {
+      "layer_name": "conv2",
+      "type": "ConvolutionLayer",
+      "bottom": "pooling1",
+      "top": "pooling2",
+      "conv_parameters": {
+        "kernel_size": 5,
+        "kernel_cnt" : 50,
+        "stride" : 1
+      }
+    },
+    {
+      "layer_name":"pooling2",
+      "type":"MaxPooling",
+      "bottom":"conv2",
+      "top":"hidden1",
+      "pooling_parameters":{
+        "kernel_size":2,
+        "stride":2
+      }
+    },
+    {
+      "layer_name":"FC1",
+      "type":"FCLayer",
+      "bottom":"pooling2",
+      "top":"output",
+      "num_output":20
+    },
+    {
+      "layer_name":"output",
+      "type":"OutputLayer",
+      "bottom":"hidden",
+      "num_output":10,
+      "top":""
+    }
+  ]
+}

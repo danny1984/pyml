@@ -6,5 +6,6 @@
 
 from src.layer.InputLayer import InputLayer
 from src.layer.FCLayer import FCLayer
-from src.layer.Conv import  Conv
+from src.layer.ConvolutionLayer import  ConvolutionLayer
+from src.layer.MaxPooling import  MaxPooling
 from src.layer.OutputLayer import OutputLayer

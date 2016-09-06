@@ -16,8 +16,8 @@ class SGMLNN(object):
         logger.debug("Initializing data ....")
         self.dataConfig = self.globalConfig["data"]
         self.trainData, self.validationData, self.testData = load_data_wrapper(self.dataConfig["path"])
-        #self.trainData = self.trainData[:1000]
-        #self.testData  = self.testData[:1000]
+        self.trainData = self.trainData[:1000]
+        self.testData  = self.testData[:1000]
         self.data = [self.trainData, self.validationData, self.testData]
         logger.debug("training sample size: " + str(len(self.trainData[0])))
         logger.debug("validation sample size: " + str(len(self.validationData[0])))

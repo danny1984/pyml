@@ -11,7 +11,7 @@ from SGMLCore import SGMLNN
 def LoadConfig():
     # 读取配置文件
     pwd = os.path.abspath('.')
-    configFile = pwd + '\..\..\config\\test.json'
+    configFile = pwd + "\..\..\config\LeNet.json"
     f = file(configFile)
     jsonConfig = json.load(f)
     return jsonConfig

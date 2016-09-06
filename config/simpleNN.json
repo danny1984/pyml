@@ -32,13 +32,6 @@
       "num_output":30
     },
     {
-      "layer_name":"hidden2",
-      "type":"FCLayer",
-      "bottom":"input",
-      "top":"output",
-      "num_output":15
-    },
-    {
       "layer_name":"output",
       "type":"OutputLayer",
       "bottom":"hidden",

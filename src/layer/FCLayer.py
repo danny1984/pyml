@@ -23,7 +23,11 @@ class FCLayer(LayerBase):
         logger.debug("pre_layer: [" + bottom.getLayerName() + "] current_layer: [" + top.getLayerName() + "]" )
 
         # FC的weight 和 bias
-        self.default_weight_initializer(top._N, bottom._N)
+        if type(bottom._N) == int:
+            self.default_weight_initializer(top._N, bottom._N)
+        else:
+            bottom_N = vector_prod(bottom._N)
+            self.default_weight_initializer(top._N, bottom_N)
         logger.debug("setup current_layer:[" + top.getLayerName() + "] Weight_size: "
                     + str(self._W.shape) + " Bias_size: " + str(self._B.shape))
 
