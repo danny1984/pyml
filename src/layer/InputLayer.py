@@ -35,6 +35,7 @@ class InputLayer(LayerBase):
         self._A = sample
         if self.reshape == 1:
             self._A = self._A.reshape(self.reshapeHeight, self.reshapeWidth)
+        logger.debug("InputLayer forward end ")
 
     def backward(self, postLayer):
         super(InputLayer, self).backward()

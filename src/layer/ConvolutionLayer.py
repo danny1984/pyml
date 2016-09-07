@@ -1,8 +1,8 @@
 # coding = utf-8
 
-from src.math.mathFun import *
 from LayerBase import LayerBase
 from src.util.UtilTool import *
+from src.math.mathFun import _im2col
 import numpy as np
 
 class ConvolutionLayer(LayerBase):
@@ -27,7 +27,6 @@ class ConvolutionLayer(LayerBase):
         logger.debug("======================================")
         x = np.arange(9).reshape(3,3)
         logger.debug(x)
-        from src.math.mathFun import _im2col
         x_col = _im2col(x, (2,2))
         logger.debug(x_col)
         logger.debug("======================================")
