@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import random
+import datetime
 from src.factory.GlobalFactory import *
 from src.util.UtilTool import *
 from src.solver.SolverBase import *
@@ -18,10 +19,12 @@ class SGD(SolverBase):
 
         training_cost, training_accuracy = [], []
         test_cost, test_accuracy = [], []
+        optimize_start = datetime.datetime.now()
         for epoch in xrange( self.neuronNetwork.epochs ):
             logger.info("==== epoch " + str(epoch) + " =====")
             random.shuffle(self.neuronNetwork.trainData)
 
+            epoch_start = datetime.datetime.now()
             mini_batches = [ self.neuronNetwork.trainData[k:k+self.neuronNetwork.mini_batch_size]
                              for k in xrange(0, n_train_size, self.neuronNetwork.mini_batch_size) ]
 
@@ -47,6 +50,12 @@ class SGD(SolverBase):
                 accuracy = self.doAccuracy(self.neuronNetwork.testData)
                 test_accuracy.append(accuracy)
                 logger.info("trace test accuracy: " + str(accuracy) )
+
+            epoch_end = datetime.datetime.now()
+            logger.info("This epoch takes " + str(float((epoch_end - epoch_start).seconds)/60.0) + " mins!")
+
+        optimize_end = datetime.datetime.now()
+        logger.info("=== Whole optimization lasts " + str( float((optimize_end - optimize_start).seconds)/60.0 ) + " mins ===")
 
     def doAccuracy(self, data, dataType = False):
         results = []

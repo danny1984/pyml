@@ -1,6 +1,7 @@
 #coding: utf-8
 
 from src.util.UtilTool import *
+from LayerType import *
 
 class LayerBase(object):
 
@@ -9,6 +10,7 @@ class LayerBase(object):
         self.name       = config["layer_name"]
         self.config     = config
         self.globalConfig = globalConfig
+        self.type       = LayerType.DEFAULT
 
     def setup(self, bottom, top):
         logger.debug("Layer(" + self.getLayerName() + ") setting up ....")

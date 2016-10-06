@@ -1,6 +1,6 @@
 {
   "nn_name":"sgmlTest",
-  "decription":"gml test program",
+  "decription":"sgml test program",
   "data":{
     "path": "../../data/mnist.pkl.gz",
     "type": "mnist_loader"
@@ -9,7 +9,7 @@
     "solver":"SGD",
     "mini_batch_size": 100,
     "eta": 3,
-    "epochs": 10,
+    "epochs": 30,
     "costType" : "CrossEntropy"
   },
   "trace":{

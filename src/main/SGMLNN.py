@@ -40,7 +40,7 @@ class SGMLNN(object):
         for layerConf in self.globalConfig["layers"]:
             layer = globals()[layerConf["type"]](layerConf, self.globalConfig)
             self.layers.append(layer)
-            logger.debug("Layer: " + layer.getLayerName())
+            logger.debug("Layer: " + layer.getLayerName() + " initialization done")
 
         # layer setup，包括网络具体参数，如weight bias
         logger.debug("setting up network ....")

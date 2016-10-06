@@ -2,6 +2,7 @@
 
 import numpy as np
 from functools import reduce
+from src.factory.ToolFactory import *
 
 def padwithzero(vector, pad_width, iaxis, kwargs):
      vector[:pad_width[0]] = 0
@@ -30,6 +31,27 @@ def _im2col(image, block_size, skip=1):
             itr += 1
 
     return output_vectors[:, ::skip]
+
+def im2col(image, block_size, skip=1):
+    channel, height, width = image.shape
+    # 卷积次数
+    m1 = height - block_size[0]  + 1
+    m2 = width  - block_size[1]  + 1
+    ret = np.zeros( (1, m1 * m2 ))
+    for ind in xrange(0, channel):
+        tmp = _im2col( image[ind,::], block_size, skip )
+        ret = np.concatenate((ret, tmp))
+
+    ret = ret[1:]
+    return ret.transpose()
+
+#################  Test ###################
+def _test_3dim2col():
+    x = np.arange(27).reshape(3,3,3)
+    print x
+    print "======"
+    new_x = im2col(x,(2,2))
+    print new_x
 
 
 #def get_im2col_indices(x_shape, field_height, field_width, padding=1, stride=1):

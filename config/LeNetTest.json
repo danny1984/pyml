@@ -8,8 +8,8 @@
   "parameters":{
     "solver":"SGD",
     "mini_batch_size": 100,
-    "eta": 3,
-    "epochs": 10,
+    "eta": 5,
+    "epochs": 50,
     "costType" : "CrossEntropy"
   },
   "trace":{
@@ -37,7 +37,7 @@
       "top": "pooling1",
       "conv_parameters": {
         "kernel_size": 5,
-        "kernel_cnt": 20,
+        "kernel_cnt": 10,
         "stride" : 1
       }
     },
@@ -46,27 +46,6 @@
       "type":"MaxPooling",
       "bottom":"conv1",
       "top":"conv2",
-      "pooling_parameters":{
-        "kernel_size":2,
-        "stride":2
-      }
-    },
-    {
-      "layer_name": "conv2",
-      "type": "ConvolutionLayer",
-      "bottom": "pooling1",
-      "top": "pooling2",
-      "conv_parameters": {
-        "kernel_size": 5,
-        "kernel_cnt" : 50,
-        "stride" : 1
-      }
-    },
-    {
-      "layer_name":"pooling2",
-      "type":"MaxPooling",
-      "bottom":"conv2",
-      "top":"FC1",
       "pooling_parameters":{
         "kernel_size":2,
         "stride":2
