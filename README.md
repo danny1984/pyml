@@ -18,7 +18,7 @@ If you have any suggestions, pls feel free to connect me.
 # Acknowledgement
 
 My first thank should go to my wife, Junhua Shi. 
-This work takes me much spare time. And she provides her comprehension and concern to me.
+This work takes me much spare time. And she provides her greate comprehension and concern to me.
 She contributes much to my precious life.
 
 Meanwhile, I refer lots of materials and codes to complete this project.
