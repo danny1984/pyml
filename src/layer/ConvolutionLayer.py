@@ -34,6 +34,9 @@ class ConvolutionLayer(LayerBase):
         self.delta_W    = []
         self.delta_B    = []
 
+        self.delta_tmp_W = []
+        self.delta_tmp_B = []
+
     def setup(self, bottom, top):
         super(ConvolutionLayer, self).setup(bottom, top)
 
@@ -96,6 +99,7 @@ class ConvolutionLayer(LayerBase):
             logger.debug(self.getLayerName() + " self.delta size: " + str(self.delta.shape) )
         else:
             logger.fatal("***** Fatal: the layer after the " + self.getLayerName() + " convolution layer is not pooling layer!!!!!!!!!! ")
+            exit(-1)
 
         logger.debug(self.getLayerName() + " to update delta_W ....")
         logger.debug(self.getLayerName() + " delta_W size: " + str(self.delta_W.shape) )
@@ -103,13 +107,16 @@ class ConvolutionLayer(LayerBase):
         logger.debug(self.getLayerName() + " preLayer._A size: " + str(preLayer._A.shape))
         delta_output_channel_cnt, delta_height, delta_width = self.delta.shape
         pre_A_channel_cnt, pre_A_height, pre_A_width        = preLayer._A.shape
+        self.delta_tmp_W = np.zeros(self._W.shape)
+        self.delta_tmp_B = np.zeros(self._B.shape)
         for delta_channel_ind in range(delta_output_channel_cnt):
             for pre_A_channel_ind in range(pre_A_channel_cnt):
                 #logger.debug("preLayer._A size:" + str(preLayer._A[pre_A_channel_ind,:].shape) + " self.delta size: " + str(self.delta[delta_channel_ind,:].shape) + " self.delta_W size:" + str(self.delta_W[delta_channel_ind, pre_A_channel_ind,::].shape)  )
-                self.delta_W[delta_channel_ind, pre_A_channel_ind,::] = self.delta_W[delta_channel_ind, pre_A_channel_ind, ::] \
-                                                                        + Convolution2D( preLayer._A[pre_A_channel_ind,:], self.delta[delta_channel_ind,:] )
-            self.delta_B[delta_channel_ind] = self.delta_B[delta_channel_ind] + np.sum(self.delta[delta_channel_ind,:])
+                self.delta_tmp_W[delta_channel_ind, pre_A_channel_ind,::] = Convolution2D( preLayer._A[pre_A_channel_ind,:], self.delta[delta_channel_ind,:] )
+            self.delta_tmp_B[delta_channel_ind] = np.sum(self.delta[delta_channel_ind,:])
 
+        self.delta_W = self.delta_W + self.delta_tmp_W
+        self.delta_B = self.delta_B + self.delta_tmp_B
         logger.debug(self.getLayerName() + " backward done")
 
     def default_weight_initializer(self, preLayer_output, kernel_size, kernel_cnt):

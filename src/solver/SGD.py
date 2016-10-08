@@ -84,6 +84,9 @@ class SGD(SolverBase):
             logger.debug("Training one sample in mini_batch_update")
             self.doForward(x)
             self.doBackward(y)
+            #self.check_cnn_delta_w(x, y)
+            #self.check_delta_w(x, y)
+
         self.doBatchUpdate( self.neuronNetwork.mini_batch_size, self.neuronNetwork.eta )
 
     def doForward(self, x):
@@ -110,3 +113,95 @@ class SGD(SolverBase):
     def miniBatchPrepare(self):
         for layer in self.neuronNetwork.layers:
             layer.miniBatchPrepare()
+
+    def check_cnn_delta_w(self, x, y):
+        h = 0.0001
+        kernel_ind        = 0
+        kernel_connect    = 0
+        weight_height_ind = 0
+        weight_width_ind  = 0
+
+        # 想要check的layer
+        ind = 1
+        # BP 得到的 delta_W delta_B
+        logger.info("Gradient check: from network" + str(self.neuronNetwork.layers[ind].delta_tmp_W[kernel_ind, kernel_connect, weight_height_ind,weight_width_ind]))
+        derivation_w_from_bp = self.neuronNetwork.layers[ind].delta_tmp_W[kernel_ind, kernel_connect, weight_height_ind, weight_width_ind]
+
+        # Gradient check - W
+        logger.info("Gradient check: original layer weight " + str(self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind, weight_width_ind]) )
+        self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind, weight_width_ind] = \
+            self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind,weight_width_ind] + h
+        logger.info("Gradient check: add new h the layer weight is " + str(self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind,weight_width_ind]) )
+        self.doForward(x)
+        cost_plus_h = self.neuronNetwork.layers[ len(self.neuronNetwork.layers) - 1 ].doCost(y)
+        logger.info("Gradient check: plus h cost is " + str(cost_plus_h) )
+
+        self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind,weight_width_ind] = \
+            self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind,weight_width_ind] - 2.0 * h
+        self.doForward(x)
+        cost_minus_h = self.neuronNetwork.layers[ len(self.neuronNetwork.layers) - 1].doCost(y)
+        logger.info("Gradient check: minus h cost is " + str(cost_minus_h) )
+        derivation_of_weight = (cost_plus_h - cost_minus_h)/(2.0*h)
+
+        # check 是否相同
+        logger.info("Gradient check: BP delta_W: " + str(derivation_w_from_bp) + ", gradient check: " + str(derivation_of_weight) )
+        if np.fabs((derivation_w_from_bp - derivation_of_weight)) < 0.001:
+            logger.info("Gradient check weight sucessfully")
+        else:
+            logger.info("Error in gradient weight check in BP")
+            exit(-1)
+        self.neuronNetwork.layers[ind]._W[kernel_ind,kernel_connect, weight_height_ind, weight_width_ind] = \
+            self.neuronNetwork.layers[ind]._W[kernel_ind, kernel_connect, weight_height_ind, weight_width_ind] + h
+
+        # Gradient check - B
+        derivation_b_from_bp = self.neuronNetwork.layers[ind].delta_tmp_B[kernel_ind]
+
+        # check B
+        logger.info("Gradient check: original layer bias " + str(self.neuronNetwork.layers[ind]._B[kernel_ind]))
+        self.neuronNetwork.layers[ind]._B[kernel_ind] = self.neuronNetwork.layers[ind]._B[kernel_ind] + h
+        logger.info("Gradient check: add new h to the layer bias " + str(self.neuronNetwork.layers[ind]._B[kernel_ind]) )
+        self.doForward(x)
+        cost_plus_h = self.neuronNetwork.layers[ len(self.neuronNetwork.layers) - 1 ].doCost(y)
+        logger.info("Gradient check: plus h cost is " + str(cost_plus_h))
+        self.neuronNetwork.layers[ind]._B[kernel_ind] = self.neuronNetwork.layers[ind]._B[kernel_ind] - 2.0 * h
+        self.doForward(x)
+        cost_minus_h = self.neuronNetwork.layers[ len(self.neuronNetwork.layers) - 1 ].doCost(y)
+        logger.info("Gradient check: minus h cost is " + str(cost_minus_h) )
+        derivation_of_bias = (cost_plus_h - cost_minus_h) / (2.0 * h)
+
+        # check 是否相同
+        logger.info("Gradient check: BP delta_B: " + str(derivation_b_from_bp) + ", gradient check: " + str(derivation_of_bias) )
+        if np.fabs( (derivation_b_from_bp - derivation_of_bias)) < 0.001:
+            logger.info("Gradient check bias sucessfully")
+        else:
+            logger.info("Error in gradient bias check in BP")
+            exit(-1)
+
+        self.neuronNetwork.layers[ind]._B[kernel_ind] = self.neuronNetwork.layers[ind]._B[kernel_ind] + h
+
+
+    def check_delta_w(self, x, y):
+        h = 0.0001
+        weight_height_ind = 0
+        weight_width_ind  = 155
+        # 想要check的layer
+        ind = 1
+        logger.info("Gradient check: from network" + str(self.neuronNetwork.layers[ind].delta_W[weight_height_ind,weight_width_ind]))
+        derivation_from_bp = self.neuronNetwork.layers[ind].delta_W[weight_height_ind, weight_width_ind]
+        logger.info("Gradient check: original layer weight " + str(self.neuronNetwork.layers[ind]._W[weight_height_ind, weight_width_ind]) )
+        self.neuronNetwork.layers[ind]._W[weight_height_ind, weight_width_ind] = self.neuronNetwork.layers[ind]._W[weight_height_ind,weight_width_ind] + h
+        logger.info("Gradient check: add new h the layer weight is " + str(self.neuronNetwork.layers[ind]._W[weight_height_ind,weight_width_ind]) )
+        self.doForward(x)
+        cost_plus_h = self.neuronNetwork.layers[ len(self.neuronNetwork.layers) - 1 ].doCost(y)
+        logger.info("Gradient check: plus h cost is " + str(cost_plus_h) )
+        self.neuronNetwork.layers[ind]._W[weight_height_ind,weight_width_ind] = self.neuronNetwork.layers[ind]._W[weight_height_ind,weight_width_ind] - 2 * h
+        self.doForward(x)
+        cost_minus_h = self.neuronNetwork.layers[ len(self.neuronNetwork.layers) - 1].doCost(y)
+        logger.info("Gradient check: minus h cost is " + str(cost_minus_h) )
+        derivation_of_weight = (cost_plus_h - cost_minus_h)/(2.0*h)
+        if np.fabs((derivation_from_bp - derivation_of_weight)) < 0.001:
+            logger.info("Gradient check sucessfully")
+        else:
+            logger.info("Error in gradient check in BP")
+            exit(-1)
+        self.neuronNetwork.layers[ind]._W[0,0] = self.neuronNetwork.layers[ind]._W[0,0] + h

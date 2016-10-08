@@ -49,11 +49,11 @@ def rotate_4D_kernel(kernel4D, degree):
         for con in range( previous_connect ):
             kernel4D[ind, con, ::] = np.rot90(kernel4D[ind,con,::], degree)
 
-    kernel4D = np.swapaxes(kernel4D, 0, 1)
+    #kernel4D = np.swapaxes(kernel4D, 0, 1)
     return kernel4D
 
 def Test_rotate_4D_kernel():
-    x = np.arange(36).reshape(3,3,2,2)
+    x = np.arange(36).reshape(3,2,3,2)
     logger.debug("Test 1: x shape: " + str(x.shape))
     logger.debug("\n" + str(x))
     rx = rotate_4D_kernel(x, 2)

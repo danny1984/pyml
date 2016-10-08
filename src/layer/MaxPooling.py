@@ -103,10 +103,15 @@ class MaxPooling(LayerBase):
             logger.debug(self.getLayerName() + " postLayer _W size: " + str(postLayer._W.shape) + ", going to rotate this postLayer._W")
             # *****************  一定要注意同时要进行kernel组的 rotation **********************
             rotated_kernel = rotate_4D_kernel(postLayer._W, 2)
-            logger.debug(self.getLayerName() + " rotated_kernel size: " + str(rotated_kernel.shape))
+            kernel_cnt, pre_connect, kernel_height, kernel_width = rotated_kernel.shape
+            rotated_kernel_dem = np.zeros((pre_connect, kernel_cnt, kernel_height, kernel_width))
+            for kernel_ind in xrange(kernel_cnt):
+                for pre_ind in xrange(pre_connect):
+                    rotated_kernel_dem[pre_ind, kernel_ind, ::] = rotated_kernel[kernel_ind, pre_ind, ::]
+            logger.debug(self.getLayerName() + " rotated_kernel size: " + str(rotated_kernel_dem.shape))
 
             # 3. 卷积  padded残差 和 rotated_kernel
-            conv_postLayerDelta_kernel = Convolution3D(conv_delta_padded, rotated_kernel)
+            conv_postLayerDelta_kernel = Convolution3D(conv_delta_padded, rotated_kernel_dem)
             logger.debug(self.getLayerName() + " cov_postLayerDelta_kernel size: " + str(conv_postLayerDelta_kernel.shape) )
             # 4. 叉积， maxpooling 没有使用任何非线性函数，直接输出，所以导数是1，最后变形
             self.delta = conv_postLayerDelta_kernel.transpose().reshape(self._N)
