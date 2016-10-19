@@ -28,13 +28,20 @@
       "layer_name":"hidden1",
       "type":"FCLayer",
       "bottom":"input",
-      "top":"output",
+      "top":"hidden2",
       "num_output":30
+    },
+    {
+      "layer_name":"hidden2",
+      "type":"FCLayer",
+      "bottom":"hidden1",
+      "top":"output",
+      "num_output":20
     },
     {
       "layer_name":"output",
       "type":"OutputLayer",
-      "bottom":"hidden",
+      "bottom":"hidden2",
       "num_output":10,
       "top":""
     }
