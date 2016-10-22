@@ -11,7 +11,7 @@ from SGMLNN import SGMLNN
 def LoadConfig():
     # 读取配置文件
     pwd = os.path.abspath('.')
-    configFile = pwd + "\..\..\config\SimpleNN.json"
+    configFile = pwd + "\..\..\config\ShallowNN.json"
     #configFile = pwd + "\..\..\config\LeNetTest.json"
     logger.info("SGML starts, and going to read: " + configFile)
     f = file(configFile)
