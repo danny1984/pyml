@@ -15,7 +15,7 @@ If you have any suggestions, pls feel free to connect me.
 
 1. Fully connected layer
 
-2. Convolutional neuron networks - still in debug
+2. Convolutional neuron networks 
 
 # Acknowledgement
 
